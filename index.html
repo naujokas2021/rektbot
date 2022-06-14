@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>RektBot Generator</title>
+</head>
+<style>
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+</style>
+<body>
+<div class="row">
+  <div class="column" style="background-color:;">
+    <h2>Snipinimo metodas</h2>
+  <input type="checkbox" id="Liq" name="check" value="Liq" onclick="onlyOne(this)">
+  <label for="Liq"> LP Snipe</label>
+  <input type="checkbox" id="MethodIds" name="check" value="MethodIds" onclick="onlyOne(this)">
+  <label for="MethodIds"> MethodIds Snipe</label>
+  <input type="checkbox" id="OwnerIds" name="check" value="OwnerIds" onclick="onlyOne(this)">
+  <label for="OwnerIds"> Owner MethodIds</label><br><br>
+
+<label for="name">Token To Use</label>
+<input type="text" id="token0" name="token0" size="50">
+<br>
+<label for="name">Token To Buy</label>
+<input type="text" id="token1" name="token1" size="50">
+<br>
+<label for="name">Amount</label>
+<input type="text" id="amount" name="amount">
+<br>
+<label for="name">Tavo wallet, kur gaus tokenus</label>
+<input type="text" id="wallet" name="wallet" size="40">
+<br>
+<label for="name">SafeBuyAmount</label>
+<input type="text" id="amount-in-test" name="amount-in-test" value="0.01">
+<br>
+<label for="name">SafeTax Buy</label>
+<input type="text" id="amount-tax-buy-test" name="amount-tax-buy-test" value="25">
+<br>
+<label for="name">SafeTax Sell</label>
+<input type="text" id="amount-tax-sell-test" name="amount-tax-sell-test" value="25">
+<br>
+<label for="name">CA Owner aka Sender</label>
+<input type="text" id="sender" name="sender" size="50">
+<br>
+<label for="name">MethodID</label>
+<input type="text" id="method-id" name="method-id">
+<br>
+<label for="name">SkipBlock</label>
+<input type="text" id="skip-block" name="skip-block">
+<br>
+<label for="name">GWEI</label>
+<input type="text" id="gas-price" name="gas-price">
+<br>
+<br>
+<button id="start">Build It</button>
+<br>
+<br>
+<div id="buyline"></div>
+<div id="sellline"></div>
+ </div>
+  <div class="column" style="background-color:;">
+    <h2>Some Good Stuff</h2>
+    <p>WBNB: 0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c</p>
+    <p>Finalize ID: 0x4bb278f3</p>
+    <br>
+    <p>Gas calculator:</p>
+    <label for="name">GasPrice</label>
+    <input type="text" id="gwei" name="gwei" value="5">
+    <br>
+    <label for="name">GasLimit</label>
+    <input type="text" id="limit" name="limit" value="2000000">
+    <br>
+    <br>
+    <button id="calc">Calc BNB per transaction</button>
+    <br>
+    <br>
+    <div id="gascalc"></div>
+  </div>
+</div>
+</body>
+<script>
+var buyDiv = document.getElementById("buyline");
+var sellDiv = document.getElementById("sellline");
+var startBtn = document.getElementById("start");
+
+
+ startBtn.onclick = function (evt) {
+        start();
+    }
+    
+function start() {
+
+var gasprice = document.getElementById("gas-price").value;
+var methodid = document.getElementById("method-id").value;
+var sender = document.getElementById("sender").value;
+var skipblock = document.getElementById("skip-block").value;
+var selltax = document.getElementById("amount-tax-sell-test").value;
+var buytax = document.getElementById("amount-tax-buy-test").value;
+var safeamount = document.getElementById("amount-in-test").value;
+var wallet = document.getElementById("wallet").value;
+var amount = document.getElementById("amount").value;
+var token1 = document.getElementById("token1").value;
+var token0 = document.getElementById("token0").value;
+
+var checkBoxLiq = document.getElementById("Liq");
+var checkBoxIDs = document.getElementById("MethodIds");
+var checkBoxOwnerIDs = document.getElementById("OwnerIds");
+
+var botname = "./rektbot "
+var buyLine;
+var sellLine;
+
+if (checkBoxLiq.checked == true){
+   buyLine =  "coinSniper-liq --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+" --amount-in "+amount+" --waitTxConfirm --wallet "+wallet+" --auto-approve"
+    
+ 	if (safeamount != "" ) {
+  buyLine = buyLine + " --amount-in-test "+safeamount+" --amount-tax-buy-test "+buytax+" --amount-tax-sell-test "+selltax  }
+  
+if (skipblock != "") {
+     buyLine = buyLine + " --skip-block " + skipblock + " --gas-price " + gasprice    }
+}
+
+if (checkBoxIDs.checked == true){
+     buyLine =  "coinSniper-ids --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+" --amount-in "+amount+" --waitTxConfirm --wallet "+wallet+" --auto-approve --method-id "+methodid
+ 	 if (safeamount != "") {
+  buyLine = buyLine + " --amount-in-test "+safeamount+" --amount-tax-buy-test "+buytax+" --amount-tax-sell-test "+selltax
+  }
+   if (skipblock != "") {
+     buyLine = buyLine + " --skip-block " + skipblock + " --gas-price " + gasprice
+    }
+  }
+  if (checkBoxOwnerIDs.checked == true){
+    buyLine =  "coinSniper-owner-ids --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+" --amount-in "+amount+" --waitTxConfirm --wallet "+wallet+" --sender "+sender+" --auto-approve --method-id "+methodid
+ 	 if (safeamount != "") {
+  buyLine = buyLine + " --amount-in-test "+safeamount+" --amount-tax-buy-test "+buytax+" --amount-tax-sell-test "+selltax
+  }
+   if (skipblock != "") {
+     buyLine = buyLine + " --skip-block " + skipblock + " --gas-price " + gasprice
+    }
+  }
+
+
+
+	
+buyDiv.innerHTML = "Pirkimas: <br>" + botname + buyLine;
+
+sellLine = "dumpAll --swap pancakeswapv2 --token0 " + token1+" --token1 " + token0 + " --auto-approve --waitTxConfirm --wallet "+wallet; 
+
+sellDiv.innerHTML = "<br><br>Pardavimas: <br>" +botname + sellLine;
+}
+
+// kalkuliatorius
+
+var result;
+var calcBtn = document.getElementById("calc");
+ calcBtn.onclick = function (evt) {
+
+        calc();
+    }
+    
+function calc() {  
+var gwei = document.getElementById("gwei").value;
+var limit = document.getElementById("limit").value;
+result=gwei*limit/1000000000;
+gascalc.innerHTML = "TX kaina: " + result + " BNB"
+}
+
+//only-1 checkbox
+
+function onlyOne(checkbox) {
+    var checkboxes = document.getElementsByName('check')
+    checkboxes.forEach((item) => {
+        if (item !== checkbox) item.checked = false
+    })
+}
+</script>
+</html>
