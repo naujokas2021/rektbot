@@ -152,7 +152,7 @@ if (checkBoxIDs.checked == true){
 	
 buyDiv.innerHTML = "Pirkimas: <br>" + botname + buyLine;
 
-sellLine = "dumpAll --swap pancakeswapv2 --token0 " + token1+" --token1 " + token0 + " --auto-approve --waitTxConfirm --wallet "+wallet; 
+sellLine = "dumpAll --swap pancakeswapv2 --token0 " + token1+" --token1 " + token0 + " --auto-approve --waitTxConfirm --wallet "+wallet + " --gas-price 7";
 
 sellDiv.innerHTML = "<br><br>Pardavimas: <br>" +botname + sellLine;
 
