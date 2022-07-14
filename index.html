@@ -131,7 +131,7 @@ if (amountout != "") {
 	tokenamountLine = " --amount-in "+amount;	
 	}
 if (checkBoxLiq.checked == true){
-   buyLine =  "coinSniper-liq --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+ tokenamountLine +" --waitTxConfirm --wallet "+wallet+" --auto-approve"
+   buyLine =  "coinSniper-liq --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1 + tokenamountLine +" --waitTxConfirm --wallet "+wallet+" --auto-approve"
     
  	if (safeamount != "" ) {
   buyLine = buyLine + " --amount-in-test "+safeamount+" --amount-tax-buy-test "+buytax+" --amount-tax-sell-test "+selltax  }
@@ -141,7 +141,7 @@ if (skipblock != "") {
 }
 
 if (checkBoxIDs.checked == true){
-     buyLine =  "coinSniper-ids --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+ tokenamountLine " --waitTxConfirm --wallet "+wallet+" --auto-approve --method-id "+methodid
+     buyLine =  "coinSniper-ids --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1 + tokenamountLine + " --waitTxConfirm --wallet "+wallet+" --auto-approve --method-id "+methodid
  	 if (safeamount != "") {
   buyLine = buyLine + " --amount-in-test "+safeamount+" --amount-tax-buy-test "+buytax+" --amount-tax-sell-test "+selltax
   }
@@ -150,7 +150,7 @@ if (checkBoxIDs.checked == true){
     }
   }
   if (checkBoxOwnerIDs.checked == true){
-    buyLine =  "coinSniper-owner-ids --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+ tokenamountLine + " --waitTxConfirm --wallet "+wallet+" --sender "+sender+" --auto-approve --method-id "+methodid
+    buyLine =  "coinSniper-owner-ids --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1 + tokenamountLine + " --waitTxConfirm --wallet "+wallet+" --sender "+sender+" --auto-approve --method-id "+methodid
  	 if (safeamount != "") {
   buyLine = buyLine + " --amount-in-test "+safeamount+" --amount-tax-buy-test "+buytax+" --amount-tax-sell-test "+selltax
   }
