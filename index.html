@@ -29,8 +29,11 @@
 <label for="name">Token To Buy</label>
 <input type="text" id="token1" name="token1" size="50">
 <br>
-<label for="name">Amount</label>
+<label for="name">Amount (Jeigu Maxwallet tai cia yra MaxBNB)</label>
 <input type="text" id="amount" name="amount">
+<br>
+<label for="name">Amount-Out (MaxWallet buy)</label>
+<input type="text" id="amountout" name="amountout">
 <br>
 <label for="name">Tavo wallet, kur gaus tokenus</label>
 <input type="text" id="wallet" name="wallet" size="40">
@@ -110,7 +113,8 @@ var wallet = document.getElementById("wallet").value;
 var amount = document.getElementById("amount").value;
 var token1 = document.getElementById("token1").value;
 var token0 = document.getElementById("token0").value;
-
+var amountout = document.getElementById("amountout").value;
+	
 var checkBoxLiq = document.getElementById("Liq");
 var checkBoxIDs = document.getElementById("MethodIds");
 var checkBoxOwnerIDs = document.getElementById("OwnerIds");
@@ -119,9 +123,15 @@ var botname = "./rektbot "
 var buyLine;
 var sellLine;
 var antirugLine;
+var tokenamountLine;
 
+if (amountout != "") {
+	tokenamountLine = " --amount-out " + amountout + " --amount-in-max " + amount;
+	} else 	{
+	tokenamountLine = " --amount-in "+amount;	
+	}
 if (checkBoxLiq.checked == true){
-   buyLine =  "coinSniper-liq --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+" --amount-in "+amount+" --waitTxConfirm --wallet "+wallet+" --auto-approve"
+   buyLine =  "coinSniper-liq --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+ tokenamountLine +" --waitTxConfirm --wallet "+wallet+" --auto-approve"
     
  	if (safeamount != "" ) {
   buyLine = buyLine + " --amount-in-test "+safeamount+" --amount-tax-buy-test "+buytax+" --amount-tax-sell-test "+selltax  }
@@ -131,7 +141,7 @@ if (skipblock != "") {
 }
 
 if (checkBoxIDs.checked == true){
-     buyLine =  "coinSniper-ids --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+" --amount-in "+amount+" --waitTxConfirm --wallet "+wallet+" --auto-approve --method-id "+methodid
+     buyLine =  "coinSniper-ids --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+ tokenamountLine " --waitTxConfirm --wallet "+wallet+" --auto-approve --method-id "+methodid
  	 if (safeamount != "") {
   buyLine = buyLine + " --amount-in-test "+safeamount+" --amount-tax-buy-test "+buytax+" --amount-tax-sell-test "+selltax
   }
@@ -140,7 +150,7 @@ if (checkBoxIDs.checked == true){
     }
   }
   if (checkBoxOwnerIDs.checked == true){
-    buyLine =  "coinSniper-owner-ids --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+" --amount-in "+amount+" --waitTxConfirm --wallet "+wallet+" --sender "+sender+" --auto-approve --method-id "+methodid
+    buyLine =  "coinSniper-owner-ids --swap pancakeswapv2 --token0 " +token0+" --token1 "+token1+ tokenamountLine + " --waitTxConfirm --wallet "+wallet+" --sender "+sender+" --auto-approve --method-id "+methodid
  	 if (safeamount != "") {
   buyLine = buyLine + " --amount-in-test "+safeamount+" --amount-tax-buy-test "+buytax+" --amount-tax-sell-test "+selltax
   }
@@ -154,7 +164,7 @@ if (checkBoxIDs.checked == true){
 	
 buyDiv.innerHTML = "Pirkimas: <br>" + botname + buyLine + " --profit-monitor";
 
-sellLine = "dumpAll --swap pancakeswapv2 --token0 " + token1+" --token1 " + token0 + " --auto-approve --waitTxConfirm --wallet "+wallet + " --gas-price 7";
+sellLine = "dumpAll --swap pancakeswapv2 --token0 " + token1+" --token1 " + token0 + " --waitTxConfirm --wallet "+wallet + " --gas-price 7";
 
 sellDiv.innerHTML = "<br><br>Pardavimas: <br>" +botname + sellLine;
 
