@@ -168,7 +168,7 @@ if (antiIds != "") {
 let IDslist = antiIds.split(",")
 let formated = "";
 for (var i = 0; i < IDslist.length; i++) {
-    formated = formated + " --method-id "+IDslist[i];
+    formated = formated + " --method-id "+IDslist[i].replaceAll(' ','');
     //Do something
 }
 
