@@ -59,6 +59,9 @@
 <label for="name">GWEI</label>
 <input type="text" id="gas-price" name="gas-price">
 <br>
+<label for="name">AntiRugIDs pvz: 0x123456,0x855555,0x22222a</label>
+<input type="text" id="antiIds" name="antiIds">
+<br>
 <br>
 <button id="start">Build It</button>
 <br>
@@ -102,6 +105,7 @@ var startBtn = document.getElementById("start");
     
 function start() {
 
+var antiIds = document.getElementById("antiIds").value;
 var gasprice = document.getElementById("gas-price").value;
 var methodid = document.getElementById("method-id").value;
 var sender = document.getElementById("sender").value;
@@ -124,6 +128,7 @@ var buyLine;
 var sellLine;
 var antirugLine;
 var tokenamountLine;
+var antirugIDsLine;
 
 if (amountout != "") {
 	tokenamountLine = " --amount-out " + amountout + " --amount-in-max " + amount;
@@ -158,6 +163,19 @@ if (checkBoxIDs.checked == true){
      buyLine = buyLine + " --skip-block " + skipblock + " --gas-price " + gasprice
     }
   }
+  
+if (antiIds != "") {
+let IDslist = antiIds.split(",")
+let formated = "";
+for (var i = 0; i < IDslist.length; i++) {
+    formated = formated + " --method-id "+IDslist[i];
+    //Do something
+}
+
+antirugIDsLine = "antiMethod-ids --swap pancakeswapv2 --token0 " + token1 + " --token1 "+token0+" --waitTxConfirm --wallet " +wallet + formated;
+
+}
+
 
 
 
@@ -170,7 +188,9 @@ sellDiv.innerHTML = "<br><br>Pardavimas: <br>" +botname + sellLine;
 
 antirugLine = "antiRugPull-liq --swap pancakeswapv2 --token0 " + token1 + " --token1 "+token0+" --waitTxConfirm --wallet " +wallet;
 
-rugDiv.innerHTML = "<br><br>AntiRug: <br>" +botname + antirugLine;
+
+
+rugDiv.innerHTML = "<br><br>AntiRug: <br>" +botname + antirugLine + "<br><br> AntiRugIDs: <br>" +botname+ antirugIDsLine;
 
 }
 
